@@ -22,7 +22,20 @@ const fetchMoviesCompleted = movies => ({
 });
 
 export default (state = initialState, action) => {
-  return state;
+  switch (action.type) {
+    case FETCH_MOVIES_COMPLETED:
+      return {...state, ...action.payload, isLoading: false};
+    case FETCH_MOVIES:
+      return Object.assign({}, state, {
+        isLoading: true,
+      });
+    case FETCH_MOVIES_ERROR:
+      return Object.assign({}, state, {
+        isLoading: false,
+      });
+    default:
+      return state
+  }
 };
 
 export const getMovies = () => async dispatch => {
@@ -30,7 +43,7 @@ export const getMovies = () => async dispatch => {
 
   try {
     const movies = await api.getMovies();
-
+    console.log({movies})
     dispatch(fetchMoviesCompleted(movies));
   } catch (e) {
     dispatch(fetchMoviesError(e));
