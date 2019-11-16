@@ -4,7 +4,7 @@ export const ROLES = {
   ADMIN: 'admin',
 };
 
-const CHANGE_ROLE = 'CHANGE_ROLE';
+export const CHANGE_ROLE = 'CHANGE_ROLE';
 
 const initialState = {
   current: ROLES.ANONYMOUS,

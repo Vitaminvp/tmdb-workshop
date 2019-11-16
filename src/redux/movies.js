@@ -1,6 +1,6 @@
 import * as api from '../api/api';
 
-const FETCH_MOVIES = 'FETCH_MOVIES';
+export const FETCH_MOVIES = 'FETCH_MOVIES';
 const FETCH_MOVIES_ERROR = 'FETCH_MOVIES_ERROR';
 const FETCH_MOVIES_COMPLETED = 'FETCH_MOVIES_COMPLETED';
 

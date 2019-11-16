@@ -1,72 +1,58 @@
-import React from "react";
-import { connect } from "react-redux";
-
+import React, { useEffect } from "react";
 import "./App.css";
-
 import { getMovies } from "./redux/movies";
 import { changeRole, ROLES } from "./redux/roles";
+import { useSelector, useDispatch } from "react-redux";
 
-const mapStateToProps = state => ({
-  movies: state.movies,
-  isLoading: state.movies.isLoading,
-  role: state.roles.current
-});
 
-const mapDispatchToProps = {
-  getMovies,
-  changeRole
-};
+function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getMovies())
+  }, []);
 
-class App extends React.Component {
-  componentDidMount() {
-    this.props.getMovies();
-  }
+  const movies = useSelector(state => state.movies.movies);
+  //const isLoading = useSelector(state => state.movies.isLoading);
+  const role = useSelector(state => state.roles.current);
+  console.log(movies);
+  return (
+    <div className="App">
 
-  render() {
-    const {
-      movies: { movies },
-      role,
-      changeRole
-    } = this.props;
-    console.log(role);
-    return (
-      <div className="App">
-        <p>
-          <div id="header"></div>
+        <div id="header"></div>
 
-          <h1 id="logo">{role}</h1>
+        <h1 id="logo">{role}</h1>
 
-          <select onChange={e => changeRole(e.target.value)} className="select-css" >
-            <option value={ROLES.ANONYMOUS}>Anonymous</option>
-            <option value={ROLES.USER}>User</option>
-            <option value={ROLES.ADMIN}>Admin</option>
-          </select>
-        </p>
-        <ul>
-          {movies.map(movie => {
-            return (
-              <li key={movie.id}>
-                <h2>{movie.title}</h2>
-                {(ROLES.USER !== role.toLowerCase() &&
-                  ROLES.ANONYMOUS !== role.toLowerCase()) && (
+        <select
+          onChange={(e) => dispatch(changeRole(e.target.value))}
+          className="select-css"
+        >
+          <option value={ROLES.ANONYMOUS}>Anonymous</option>
+          <option value={ROLES.USER}>User</option>
+          <option value={ROLES.ADMIN}>Admin</option>
+        </select>
+
+      <ul>
+        {movies.map(movie => {
+          return (
+            <li key={movie.id}>
+              <h2>{movie.title}</h2>
+              {ROLES.USER !== role.toLowerCase() &&
+                ROLES.ANONYMOUS !== role.toLowerCase() && (
                   <img
                     src={`https://image.tmdb.org/t/p/w200/${movie.poster_path}`}
                     width="200"
+                    alt=""
                   />
                 )}
-                {ROLES.ANONYMOUS !== role.toLowerCase() && (
-                  <p>{movie.overview}</p>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    );
-  }
+              {ROLES.ANONYMOUS !== role.toLowerCase() && (
+                <p>{movie.overview}</p>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default App;

@@ -1,6 +1,6 @@
 const API_KEY = '5265606bb69e99437c85eb04dc6f29b5';
 const BASE_URL = 'https://api.themoviedb.org/3/';
-const IMAGE_BASE_URL = 'http://image.tmdb.org/t/p/';
+//const IMAGE_BASE_URL = 'http://image.tmdb.org/t/p/';
 
 export const getMovies = () =>
   fetch(
